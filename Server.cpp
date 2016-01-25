@@ -97,19 +97,25 @@ int main()
 	try
 	{
 		ServerSocket server(6789);
-		server.serverConnect();
-		string message = server.serverListen();
 
-		// message.erase((message.begin(), message.end(), '\n'), message.end());
-
-		if (message[message.length() - 1] == '\n')
+		for (;;)
 		{
-			cout << "NEWLINE\n";
+			server.serverConnect();
+			string message = server.serverListen();
+
+			// message.erase((message.begin(), message.end(), '\n'), message.end());
+
+			if (message[message.length() - 1] == '\n')
+			{
+				cout << "NEWLINE\n";
+			}
+
+			cout << "SERVER: Message received: '" << message << "'\n";
+			server.serverRespond("I received your message.");			
 		}
 
-		cout << "SERVER: Message received: '" << message << "'\n";
+		// server.serverConnect();
 
-		server.serverRespond("I received your message.");
 		server.serverDisconnect();
 	}
 	catch (string ex)
