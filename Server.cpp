@@ -1,5 +1,16 @@
 #include "Server.h"
 
+class GameHost
+{
+public:
+	GameHost() : player1_turn(true) {}
+
+	void playerSwitch() { player1_turn = !player1_turn; }
+
+private:
+	bool player1_turn;
+};
+
 ServerSocket::ServerSocket(int portNumber) throw (const string)
 {
 	cout << "SERVER: Initializing Server Socket...\n";
@@ -94,6 +105,7 @@ void ServerSocket::serverDisconnect() throw (const string)
 
 int main()
 {
+	GameHost gh;
 	try
 	{
 		ServerSocket server(6789);
