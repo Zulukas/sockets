@@ -1,15 +1,4 @@
-#include "Server.h"
-
-class GameHost
-{
-public:
-	GameHost() : player1_turn(true) {}
-
-	void playerSwitch() { player1_turn = !player1_turn; }
-
-private:
-	bool player1_turn;
-};
+#include "server.h"
 
 ServerSocket::ServerSocket(int portNumber) throw (const string)
 {
@@ -102,37 +91,35 @@ void ServerSocket::serverDisconnect() throw (const string)
 	close(newSocketFD);
 }
 
+// int main()
+// {
+// 	try
+// 	{
+// 		ServerSocket server(6789);
 
-int main()
-{
-	GameHost gh;
-	try
-	{
-		ServerSocket server(6789);
+// 		for (;;)
+// 		{
+// 			server.serverConnect();
+// 			string message = server.serverListen();
 
-		for (;;)
-		{
-			server.serverConnect();
-			string message = server.serverListen();
+// 			// message.erase((message.begin(), message.end(), '\n'), message.end());
 
-			// message.erase((message.begin(), message.end(), '\n'), message.end());
+// 			if (message[message.length() - 1] == '\n')
+// 			{
+// 				cout << "NEWLINE\n";
+// 			}
 
-			if (message[message.length() - 1] == '\n')
-			{
-				cout << "NEWLINE\n";
-			}
+// 			cout << "SERVER: Message received: '" << message << "'\n";
+// 			server.serverRespond("I received your message.");			
+// 		}
 
-			cout << "SERVER: Message received: '" << message << "'\n";
-			server.serverRespond("I received your message.");			
-		}
+// 		// server.serverConnect();
 
-		// server.serverConnect();
+// 		server.serverDisconnect();
+// 	}
+// 	catch (string ex)
+// 	{
+// 		cout << ex << endl;
+// 	}
 
-		server.serverDisconnect();
-	}
-	catch (string ex)
-	{
-		cout << ex << endl;
-	}
-
-}
+// }
