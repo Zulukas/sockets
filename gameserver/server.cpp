@@ -31,10 +31,19 @@ ServerSocket::ServerSocket(int portNumber) throw (const string)
 	}
 
 	cout << "SERVER: Socket is ready.\n";
+	
+	cout << "SERVER: Listening...\n";
+	listen(socketFD, 5);
 }
 
 ServerSocket::~ServerSocket()
 {
+	if (newSocketFD > 0)
+	{
+		//Be a good neighbor, close the socket.
+		serverDisconnect();
+	}
+
 	cout << "SERVER: Closing the socket.";
 	close(socketFD);
 }
@@ -70,9 +79,6 @@ void ServerSocket::serverRespond(const string message) throw (const string)
 
 void ServerSocket::serverConnect() throw (const string)
 {
-	cout << "SERVER: Listening...\n";
-	listen(socketFD, 5);
-
 	clientLength = sizeof(clientAddress);
 
 	newSocketFD= accept(socketFD, (struct sockaddr*) &clientAddress, &clientLength);
@@ -90,36 +96,3 @@ void ServerSocket::serverDisconnect() throw (const string)
 	cout << "SERVER: Disconnecting " << newSocketFD << endl;
 	close(newSocketFD);
 }
-
-// int main()
-// {
-// 	try
-// 	{
-// 		ServerSocket server(6789);
-
-// 		for (;;)
-// 		{
-// 			server.serverConnect();
-// 			string message = server.serverListen();
-
-// 			// message.erase((message.begin(), message.end(), '\n'), message.end());
-
-// 			if (message[message.length() - 1] == '\n')
-// 			{
-// 				cout << "NEWLINE\n";
-// 			}
-
-// 			cout << "SERVER: Message received: '" << message << "'\n";
-// 			server.serverRespond("I received your message.");			
-// 		}
-
-// 		// server.serverConnect();
-
-// 		server.serverDisconnect();
-// 	}
-// 	catch (string ex)
-// 	{
-// 		cout << ex << endl;
-// 	}
-
-// }
