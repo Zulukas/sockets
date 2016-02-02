@@ -39,10 +39,6 @@ ClientSocket::~ClientSocket()
     close(sockfd);
 }
 
-void ClientSocket::clientConnect() throw (const string)
-{
-}
-
 void ClientSocket::clientDisconnect() throw (const string)
 {
     close(sockfd);

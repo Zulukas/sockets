@@ -10,21 +10,23 @@ bool switcher = true;
 char handleInput(const string msg)
 {
 	//Parse the input, and determine the action.
-	srand(time(NULL));
+	// srand(time(NULL));
 
-	int num = rand() % 3;
+	// int num = rand() % 3;
 
-	switch(num)
-	{
-		case 0:
-			return 'r';
-		case 1:
-			return 'p';
-		case 2:
-			return 's';
-	}
+	// switch(num)
+	// {
+	// 	case 0:
+	// 		return 'r';
+	// 	case 1:
+	// 		return 'p';
+	// 	case 2:
+	// 		return 's';
+	// }
 
-	return 'r';
+	// return 'r';
+
+	return msg[0];
 }
 
 string determineWinner(const char p1, const char p2)
@@ -34,6 +36,11 @@ string determineWinner(const char p1, const char p2)
 	{
 		return "0";
 	}
+
+	if (p1 != 's' && p1 != 'p' && p1 != 'r')
+		return "2";
+	if (p2 != 's' && p2 != 'p' && p2 != 'r')
+		return "1";
 
 	switch (p1)
 	{
@@ -67,6 +74,11 @@ string determineWinner(const char p1, const char p2)
 	}
 }
 
+// void initServer(RPSServer &server, int portNumber)
+// {
+// 	server = RPSServer(portNumber);
+// }
+
 int main(int argc, char** argv)
 {
 	int portNumber = 6789;
@@ -74,6 +86,7 @@ int main(int argc, char** argv)
 	if (argc >= 2)
 	{
 		//Convert portnumber to int
+		portNumber = atoi(argv[1]);
 	}
 
 	RPSServer server(portNumber);
@@ -87,25 +100,40 @@ int main(int argc, char** argv)
 			//Get input from player 1
 			string reply = server.readFromPlayer1();
 
+			if (reply == "quit")
+			{
+				return 0;
+			}
+
 			p1 = handleInput(reply);
 
-			server.writeToPlayer1("ACCEPTED - your move is " + p1);
+			string acceptedMsg = "ACCEPTED - your move is ";
+			acceptedMsg += p1;
+
+			server.writeToPlayer1("Player 1: " + acceptedMsg);
 
 			//Get input from player 2
 			reply = server.readFromPlayer2();
 
+			if (reply == "quit")
+			{
+				return 0;
+			}
+
 			p2 = handleInput(reply);
 
-			server.writeToPlayer2("ACCEPTED - your move is " + p2);
+			acceptedMsg = "ACCEPTED - your move is ";
+			acceptedMsg += p2;
 
-			//Assert that the players are ready...
-			// server.readFromPlayer1();
-			// server.readFromPlayer2();
+			server.writeToPlayer2("Player 2: " + acceptedMsg);
 
 			string winner = determineWinner(p1, p2);
 
-			server.writeToPlayer1(winner);
-			server.writeToPlayer2(winner);
+			//Assert that the players are ready...
+			server.readFromPlayer1();
+			server.writeToPlayer1("Player 1: " + winner);
+			server.readFromPlayer2();
+			server.writeToPlayer2("Player 2: " + winner);
 		}
 		catch (string ex)
 		{
