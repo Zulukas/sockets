@@ -21,16 +21,16 @@ RPSServer::RPSServer(int portNumber = 6789) throw (const string)
 	//Set the server address object
 	serverAddress.sin_family = AF_INET;				//IPv4
 	serverAddress.sin_addr.s_addr = INADDR_ANY;		//The server may be any IP
-	serverAddress.sin_port   = htons(portNumber);	
+	serverAddress.sin_port   = htons(portNumber);
 
 	//Bind the socket
-	if (bind(serverFD, 
-		     (struct sockaddr *) &serverAddress, 
+	if (bind(serverFD,
+		     (struct sockaddr *) &serverAddress,
 		     sizeof(serverAddress)) < 0)
 	{
 		throw string("ERROR: Socket failed to bind.");
 	}
-	
+
 	cout << "SERVER: Listening...\n";
 	listen(serverFD, 2);
 
@@ -40,8 +40,8 @@ RPSServer::RPSServer(int portNumber = 6789) throw (const string)
 
 	player_one_length = sizeof(player_one_address);
 
-	playerFD_one = accept(serverFD, 
-		                (struct sockaddr*) &player_one_address, 
+	playerFD_one = accept(serverFD,
+		                (struct sockaddr*) &player_one_address,
 		                &player_one_length);
 
 	if (playerFD_one < 0)
@@ -50,7 +50,7 @@ RPSServer::RPSServer(int portNumber = 6789) throw (const string)
 	}
 
 	cout << "SERVER: Player 1 registered.\n";
-	writeToPlayer1("Player 1\n");
+	writeToPlayer1("Player 1");
 
 	//////////////////////////////////////////////////////////
 
@@ -58,8 +58,8 @@ RPSServer::RPSServer(int portNumber = 6789) throw (const string)
 
 	player_two_length = sizeof(player_two_address);
 
-	playerFD_two = accept(serverFD, 
-		                (struct sockaddr*) &player_two_address, 
+	playerFD_two = accept(serverFD,
+		                (struct sockaddr*) &player_two_address,
 		                &player_two_length);
 
 	if (playerFD_two < 0)
@@ -71,7 +71,7 @@ RPSServer::RPSServer(int portNumber = 6789) throw (const string)
 	writeToPlayer2("Player 2");
 }
 
-RPSServer::~RPSServer() 
+RPSServer::~RPSServer()
 {
 	close(serverFD);
 	close(playerFD_one);
@@ -121,8 +121,9 @@ string RPSServer::readFromPlayer2() throw (const string)
 void RPSServer::writeToPlayer1(const string msg) throw (const string)
 {
 	cout << "SERVER: Writing '" << msg << "' to Player 1.\n";
+
 	//Respond to the client
-	int n = write(playerFD_one, msg.c_str(), msg.length());
+	int n = write(playerFD_one, msg.c_str(), msg.length() + 1);
 
 	if (n < 0)
 		throw string("ERROR: failed to write to Player 1 socket.");
@@ -134,7 +135,7 @@ void RPSServer::writeToPlayer2(const string msg) throw (const string)
 {
 	cout << "SERVER: Writing '" << msg << "' to Player 2.\n";
 	//Respond to the client
-	int n = write(playerFD_two, msg.c_str(), msg.length());
+	int n = write(playerFD_two, msg.c_str(), msg.length() + 1);
 
 	if (n < 0)
 		throw string("ERROR: failed to write to Player 2 socket.");
