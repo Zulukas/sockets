@@ -31,6 +31,8 @@ public:
     void writeToServer(const string message) throw (const string);
     string readFromServer() throw (const string);
 
+    string getPlayer() { return player; }
+
 private:
     int sockfd,
         portno,
@@ -40,6 +42,8 @@ private:
     struct hostent *server;
 
     char buffer[BUFFER_SIZE];
+
+    string player;
 };
 
 #endif

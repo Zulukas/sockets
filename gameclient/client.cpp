@@ -32,15 +32,13 @@ ClientSocket::ClientSocket(string serverString, int portNumber) throw (const str
 
     if (result < 0) 
         throw string("ERROR: unable to connect.  Is the server up?");
+
+    player = readFromServer();
 }
 
 ClientSocket::~ClientSocket()
 {
     close(sockfd);
-}
-
-void ClientSocket::clientConnect() throw (const string)
-{
 }
 
 void ClientSocket::clientDisconnect() throw (const string)

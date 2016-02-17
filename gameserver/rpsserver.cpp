@@ -50,6 +50,7 @@ RPSServer::RPSServer(int portNumber = 6789) throw (const string)
 	}
 
 	cout << "SERVER: Player 1 registered.\n";
+	writeToPlayer1("Player 1\n");
 
 	//////////////////////////////////////////////////////////
 
@@ -61,12 +62,13 @@ RPSServer::RPSServer(int portNumber = 6789) throw (const string)
 		                (struct sockaddr*) &player_two_address, 
 		                &player_two_length);
 
-	if (playerFD_one < 0)
+	if (playerFD_two < 0)
 	{
 		throw string("Error: failed to accept client.");
 	}
 
-	cout << "SERVER: Player 1 registered.\n";
+	cout << "SERVER: Player 2 registered.\n";
+	writeToPlayer2("Player 2");
 }
 
 RPSServer::~RPSServer() 
