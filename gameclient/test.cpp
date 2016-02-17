@@ -16,16 +16,14 @@ int main(int argc, char *argv[])
         portNumber = atoi(argv[2]);
     }
 
-    ClientSocket mySocket(address, portNumber); //Establish the socket
-    // cout << mySocket.readFromServer();
-
-    bool timeToMakeAction = true;               //Simple state indicator    
-
-    for(;;)     //FORever loop; get the pun? Haha.
+    try
     {
-    	try
-    	{
-	    	string message;
+        bool timeToMakeAction = true;               //Simple state indicator
+        ClientSocket mySocket(address, portNumber); //Establish the socket
+
+        for(;;)     //FORever loop; get the pun? Haha.
+        {
+        	string message;
 
             if (timeToMakeAction)
             {
@@ -45,7 +43,7 @@ int main(int argc, char *argv[])
                 else
                 {
                     timeToMakeAction = false;
-                    mySocket.writeToServer(message);             
+                    mySocket.writeToServer(message);
                 }
             }
             else
@@ -55,8 +53,8 @@ int main(int argc, char *argv[])
             }
 
 
-	    	message = mySocket.readFromServer();
-	    	// mySocket.clientDisconnect();
+        	message = mySocket.readFromServer();
+        	// mySocket.clientDisconnect();
 
             stringstream ss(message);
 
@@ -65,7 +63,7 @@ int main(int argc, char *argv[])
             ss >> parts[1];
             ss >> parts[2];
 
-	    	if (parts[2] == "0")
+        	if (parts[2] == "0")
             {
                 cout << "Tie!\n";
             }
@@ -77,18 +75,13 @@ int main(int argc, char *argv[])
             {
                 cout << "Player 2 Wins!\n";
             }
-
-	    	// if (message == "DISCONNECTED")
-	    	// {
-	    	// 	return 0;
-	    	// }
-    	}
-    	catch (string ex)
-    	{
-    		cout << ex << endl;
-    		return 1;
-    	}
-    }
+        }
+	}
+	catch (string ex)
+	{
+		cout << ex << endl;
+		return 1;
+	}
 
     // mySocket.writeToServer(message);
     // mySocket.readFromServer();
