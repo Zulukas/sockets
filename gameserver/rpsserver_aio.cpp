@@ -1,10 +1,13 @@
 /***********************************************************************
 * Program:
-*    Lab Sockets
-*    Brother Jones, CS460
+*    Lab RockSrv, Rock/Paper/Scissors with Sockets - Server Code
+*    Brother Jones, CS 460
 * Author:
 *    Kevin Andres
+* Summary:
+*    Game server for RPS
 ************************************************************************/
+
 
 #include <netinet/in.h>
 #include <string.h>

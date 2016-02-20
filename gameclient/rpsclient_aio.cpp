@@ -1,9 +1,11 @@
 /***********************************************************************
 * Program:
-*    Lab Sockets
-*    Brother Jones, CS460
+*    Lab RockClient, Rock/Paper/Scissors with Sockets - Client Code
+*    Brother Jones, CS 460
 * Author:
 *    Kevin Andres
+* Summary:
+*    Game client for rock-paper-scissors
 ************************************************************************/
 
 #include <stdio.h>
