@@ -5,30 +5,6 @@
 #include <cstdlib>
 using namespace std;
 
-bool switcher = true;
-
-char handleInput(const string msg)
-{
-	//Parse the input, and determine the action.
-	// srand(time(NULL));
-
-	// int num = rand() % 3;
-
-	// switch(num)
-	// {
-	// 	case 0:
-	// 		return 'r';
-	// 	case 1:
-	// 		return 'p';
-	// 	case 2:
-	// 		return 's';
-	// }
-
-	// return 'r';
-
-	return msg[0];
-}
-
 string determineWinner(const char p1, const char p2)
 {
 	//Determine the winner
@@ -50,7 +26,7 @@ string determineWinner(const char p1, const char p2)
 				return "2";
 			}
 			else
-			{	
+			{
 				return "1";
 			}
 		case 'p':
@@ -59,7 +35,7 @@ string determineWinner(const char p1, const char p2)
 				return "2";
 			}
 			else
-			{	
+			{
 				return "1";
 			}
 		case 's':
@@ -68,7 +44,7 @@ string determineWinner(const char p1, const char p2)
 				return "2";
 			}
 			else
-			{	
+			{
 				return "1";
 			}
 	}
@@ -105,7 +81,7 @@ int main(int argc, char** argv)
 				return 0;
 			}
 
-			p1 = handleInput(reply);
+			p1 = reply[0];
 
 			string acceptedMsg = "ACCEPTED - your move is ";
 			acceptedMsg += p1;
@@ -120,7 +96,7 @@ int main(int argc, char** argv)
 				return 0;
 			}
 
-			p2 = handleInput(reply);
+			p2 = reply[0];
 
 			acceptedMsg = "ACCEPTED - your move is ";
 			acceptedMsg += p2;
